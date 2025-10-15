@@ -43,23 +43,27 @@ namespace FitTrackAPI.Repositories
         {
             var alunoSelected = await GetByIdAsync(id);
 
-            if(alunoSelected != null)
+            if (alunoSelected == null)
             {
-                _context.Alunos.Remove(alunoSelected);
-                await _context.SaveChangesAsync();
+                throw new Exception("Aluno não encontrado!");
             }
+
+            _context.Alunos.Remove(alunoSelected);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Guid id, string nome, string email, Boolean ativo)
+        public async Task UpdateAsync(Guid id, string nome, string email, bool ativo)
         {
             var alunoSelected = await GetByIdAsync(id);
 
-            if(alunoSelected != null)
+            if(alunoSelected == null)
             {
-                alunoSelected.AtualizarNome(nome);
-                alunoSelected.AtualizarEmail(email);
-                alunoSelected.AtualizarStatus(ativo);
+                throw new Exception("Aluno não encontrado!");
             }
+
+            alunoSelected.AtualizarNome(nome);
+            alunoSelected.AtualizarEmail(email);
+            alunoSelected.AtualizarStatus(ativo);
         }
     }
 }
