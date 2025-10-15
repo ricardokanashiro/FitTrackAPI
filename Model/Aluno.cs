@@ -29,5 +29,10 @@
         {
             Email = email;
         }
+
+        public void AtualizarStatus(bool ativo)
+        {
+            Ativo = ativo;
+        }
     }
 }
