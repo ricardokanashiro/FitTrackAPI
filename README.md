@@ -2,7 +2,6 @@
 > Projeto fictício criado para simular o atendimento a demandas reais de um cliente no setor de treinamento fitness, utilizando ASP.NET Core e SQLite.
 
 ## 🧾 Contexto do Cliente
-A clínica VetLife deseja informatizar seus agendamentos e cadastros de clientes.
 O estúdio FitTrack busca uma solução simples e eficiente para gerenciar seus clientes e registrar sessões de treinamento.
 
 ## 🧩 Demanda Inicial
