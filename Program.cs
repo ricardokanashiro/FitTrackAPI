@@ -18,6 +18,10 @@ builder.Services.AddScoped<FitTrackDbContext>();
 builder.Services.AddScoped<IAlunoRepository, AlunoRepository>();
 builder.Services.AddScoped<AlunoService>();
 
+// Adicionando camadas de AVALIACAO
+builder.Services.AddScoped<IAvaliacaoRepository, AvaliacaoRepository>();
+builder.Services.AddScoped<AvaliacaoService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

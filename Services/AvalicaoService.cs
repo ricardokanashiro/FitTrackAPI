@@ -1,4 +1,5 @@
-﻿using FitTrackAPI.Exceptions;
+﻿using FitTrackAPI.DTOs;
+using FitTrackAPI.Exceptions;
 using FitTrackAPI.Model;
 using FitTrackAPI.Repositories;
 
@@ -15,12 +16,13 @@ namespace FitTrackAPI.Services
             _alunoRepository = alunoRepository;
         }
 
-        public async Task<IEnumerable<Avaliacao>> ListarAvaliacoes()
+        public async Task<IEnumerable<AvaliacaoResponseDTO>> ListarAvaliacoes()
         {
-            return await _repository.GetAll();
+            var avaliacoes = await _repository.GetAll();
+            return avaliacoes.Select(AvaliacaoResponseDTO.FromEntity);
         }
 
-        public async Task<Avaliacao> BuscarAvaliacaoById(Guid id)
+        public async Task<AvaliacaoResponseDTO> BuscarAvaliacaoById(Guid id)
         {
             var avaliacao = await _repository.GetById(id);
 
@@ -29,10 +31,12 @@ namespace FitTrackAPI.Services
                 throw new NotFoundException("Avaliação não encontrada!");
             }
 
-            return avaliacao;
+            var dtoAvaliacao = new AvaliacaoResponseDTO(avaliacao.Id, avaliacao.Comentarios, avaliacao.AlunoId);
+
+            return dtoAvaliacao;
         }
 
-        public async Task<Avaliacao> RegistrarAvaliacao(Guid alunoId, string comentarios)
+        public async Task<AvaliacaoResponseDTO> RegistrarAvaliacao(Guid alunoId, string comentarios)
         {
             if(string.IsNullOrEmpty(comentarios))
             {
@@ -49,10 +53,16 @@ namespace FitTrackAPI.Services
             var novaAvaliacao = new Avaliacao(alunoId, comentarios);
             await _repository.AddAsync(novaAvaliacao);
 
-            return novaAvaliacao;
+            var dtoAvaliacao = new AvaliacaoResponseDTO(
+                novaAvaliacao.Id,
+                novaAvaliacao.Comentarios,
+                novaAvaliacao.AlunoId
+            );
+
+            return dtoAvaliacao;
         }
 
-        public async Task<Avaliacao> AtualizarAvaliacao(Guid id, string comentarios)
+        public async Task<AvaliacaoResponseDTO> AtualizarAvaliacao(Guid id, string comentarios)
         {
             if(string.IsNullOrEmpty(comentarios))
             {
@@ -67,7 +77,14 @@ namespace FitTrackAPI.Services
             }
 
             await _repository.UpdateAsync(id, comentarios);
-            return avaliacaoSelected;
+
+            var dtoAvaliacao = new AvaliacaoResponseDTO(
+                avaliacaoSelected.Id,
+                avaliacaoSelected.Comentarios,
+                avaliacaoSelected.AlunoId
+            );
+
+            return dtoAvaliacao;
         }
 
         public async Task DeletarAvaliacao(Guid id)
