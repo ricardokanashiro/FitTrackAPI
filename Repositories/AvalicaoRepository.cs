@@ -43,26 +43,22 @@ namespace FitTrackAPI.Repositories
         {
             var avaliacaoSelected = await GetById(id);
 
-            if(avaliacaoSelected == null)
+            if(avaliacaoSelected != null)
             {
-                throw new NotFoundException("Avaliação não encontrada!");
+                _context.Avaliacoes.Remove(avaliacaoSelected);
+                await _context.SaveChangesAsync();
             }
-
-            _context.Avaliacoes.Remove(avaliacaoSelected);
-            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Guid id, string comentarios)
         {
             var avaliacaoSelected = await GetById(id);
 
-            if (avaliacaoSelected == null)
+            if (avaliacaoSelected != null)
             {
-                throw new NotFoundException("Avaliação não encontrada!");
+                avaliacaoSelected.AtualizarComentarios(comentarios);
+                await _context.SaveChangesAsync();
             }
-
-            avaliacaoSelected.AtualizarComentarios(comentarios);
-            await _context.SaveChangesAsync();
         }
     }
 }
