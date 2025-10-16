@@ -7,7 +7,7 @@ namespace FitTrackAPI.Controllers
 {
     [ApiController]
     [Route("api/alunos")]
-    public class AlunoController : ControllerBase
+    public class AlunoController : BaseController
     {
         private readonly AlunoService _service;
 
@@ -31,13 +31,9 @@ namespace FitTrackAPI.Controllers
                 var aluno = await _service.BuscarAlunoById(id);
                 return Ok(aluno);
             }
-            catch (NotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Erro interno no servidor.", details = ex.Message });
+                return HandleException(ex);
             }
         }
 
@@ -56,21 +52,50 @@ namespace FitTrackAPI.Controllers
 
                 return CreatedAtAction(nameof(GetById), new { id = novoAluno.Id }, response);
             }
-            catch (ValidationException ex)
+            catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return HandleException(ex);
             }
-            catch (NotFoundException ex)
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateAlunoDTO aluno)
+        {
+            try
             {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (DomainException ex)
-            {
-                return StatusCode(422, new { message = ex.Message });
+                var alunoAtualizado = await _service.AtualizarAluno(id, aluno.Nome, aluno.Email, aluno.Ativo);
+
+                var response = new
+                {
+                    message = "Aluno atualizado com sucesso",
+                    data = alunoAtualizado
+                };
+
+                return Ok(response);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Erro interno no servidor.", details = ex.Message });
+                return HandleException(ex);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            try
+            {
+                await _service.DeletarAluno(id);
+
+                var response = new
+                {
+                    message = "Usuário deletado com sucesso!"
+                };
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
             }
         }
     }

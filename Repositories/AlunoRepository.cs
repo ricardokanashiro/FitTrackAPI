@@ -64,6 +64,8 @@ namespace FitTrackAPI.Repositories
             alunoSelected.AtualizarNome(nome);
             alunoSelected.AtualizarEmail(email);
             alunoSelected.AtualizarStatus(ativo);
+
+            await _context.SaveChangesAsync();
         }
     }
 }
