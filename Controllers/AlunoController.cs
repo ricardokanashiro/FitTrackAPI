@@ -26,8 +26,19 @@ namespace FitTrackAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var aluno = await _service.BuscarAlunoById(id);
-            return Ok(aluno);
+            try
+            {
+                var aluno = await _service.BuscarAlunoById(id);
+                return Ok(aluno);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Erro interno no servidor.", details = ex.Message });
+            }
         }
 
         [HttpPost]
@@ -47,22 +58,18 @@ namespace FitTrackAPI.Controllers
             }
             catch (ValidationException ex)
             {
-                // Erro de regra de negócio previsível → 400
                 return BadRequest(new { message = ex.Message });
             }
             catch (NotFoundException ex)
             {
-                // Caso algum recurso relacionado não exista → 404
                 return NotFound(new { message = ex.Message });
             }
             catch (DomainException ex)
             {
-                // Qualquer outro erro de domínio → 422 (Unprocessable Entity)
                 return StatusCode(422, new { message = ex.Message });
             }
             catch (Exception ex)
             {
-                // Erro inesperado → 500
                 return StatusCode(500, new { message = "Erro interno no servidor.", details = ex.Message });
             }
         }
