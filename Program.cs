@@ -11,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Adiconando DB
+// Adicionando DB
 builder.Services.AddScoped<FitTrackDbContext>();
 
 // Adicionando camadas de ALUNO
