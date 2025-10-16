@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FitTrackAPI.Repositories
 {
-
     public interface IAlunoRepository
     {
         Task<IEnumerable<Aluno>> GetAllAsync();

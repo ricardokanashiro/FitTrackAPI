@@ -18,5 +18,10 @@
             Data = DateTime.Now;
             Comentarios = comentarios;
         }
+
+        public void AtualizarComentarios(string comentarios)
+        {
+            Comentarios = comentarios;
+        }
     }
 }
