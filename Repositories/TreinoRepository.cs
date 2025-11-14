@@ -2,7 +2,6 @@
 using FitTrackAPI.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
-using System.Runtime.InteropServices;
 
 namespace FitTrackAPI.Repositories
 {
