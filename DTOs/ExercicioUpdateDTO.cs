@@ -1,4 +1,4 @@
 ﻿namespace FitTrackAPI.DTOs
 {
-    public record ExercicioUpdateDTO(Guid Id, string Nome, string Descricao);
+    public record ExercicioUpdateDTO(string Nome, string Descricao);
 }

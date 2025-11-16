@@ -10,11 +10,12 @@ namespace FitTrackAPI.Repositories
         Task<IEnumerable<Exercicio>> GetAll();
         Task<Exercicio?> GetById(Guid id);
         Task Register(Exercicio exercicio);
-        Task Update(ExercicioUpdateDTO data);
+        Task Update(Guid id, ExercicioUpdateDTO data);
         Task Delete(Guid id);
+        Task<Exercicio?> GetByName(string nome);
     }
 
-    public class ExercicioRepository
+    public class ExercicioRepository : IExercicioRepository
     {
         private FitTrackDbContext _context;
 
@@ -39,9 +40,9 @@ namespace FitTrackAPI.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task Update(ExercicioUpdateDTO data)
+        public async Task Update(Guid id, ExercicioUpdateDTO data)
         {
-            var selectedExercicio = await GetById(data.Id);
+            var selectedExercicio = await GetById(id);
 
             if(selectedExercicio == null)
             {
@@ -64,6 +65,11 @@ namespace FitTrackAPI.Repositories
 
             _context.Exercicios.Remove(selectedExercicio);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<Exercicio?> GetByName(string nome)
+        {
+            return await _context.Exercicios.FirstOrDefaultAsync(e => e.Nome.ToLower() == nome.ToLower());
         }
     }
 }

@@ -26,6 +26,10 @@ builder.Services.AddScoped<AvaliacaoService>();
 builder.Services.AddScoped<ITreinoRepository, TreinoRepository>();
 builder.Services.AddScoped<TreinoService>();
 
+// Adicionando camadas de EXERCICIO
+builder.Services.AddScoped<IExercicioRepository, ExercicioRepository>();
+builder.Services.AddScoped<ExercicioService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -13,12 +13,22 @@
 
         public SessaoTreino() { } // EF Core
 
-        public SessaoTreino(Guid treinoId)
+        public SessaoTreino(Guid treinoId, TimeSpan duracao, DateTime date)
         {
             Id = Guid.NewGuid();
-            Data = DateTime.Now;
-            Duracao = TimeSpan.Zero;
+            Data = date;
+            Duracao = duracao;
             TreinoId = treinoId;
+        }
+
+        public void AtualizarData(DateTime data)
+        {
+            Data = data;
+        }
+
+        public void AtualizarDuracao(TimeSpan duracao)
+        {
+            Duracao = duracao;
         }
     }
 }
