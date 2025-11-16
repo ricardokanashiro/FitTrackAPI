@@ -14,7 +14,7 @@ namespace FitTrackAPI.Repositories
         Task Delete(Guid id);
     }
 
-    public class TreinoRepository
+    public class TreinoRepository : ITreinoRepository
     {
         private FitTrackDbContext _context;
 
@@ -49,6 +49,19 @@ namespace FitTrackAPI.Repositories
             }
 
             treinoSelected.AtualizarTitulo(titulo);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Delete(Guid id)
+        {
+            var treinoSelected = await GetById(id);
+
+            if(treinoSelected == null)
+            {
+                throw new Exception("Treino não encontrado!");
+            }
+
+            _context.Treinos.Remove(treinoSelected);
             await _context.SaveChangesAsync();
         }
     }

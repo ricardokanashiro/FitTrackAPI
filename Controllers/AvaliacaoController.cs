@@ -79,11 +79,11 @@ namespace FitTrackAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] string comentarios)
+        public async Task<IActionResult> Update(Guid id, [FromBody] AvaliacaoUpdateDTO body)
         {
             try
             {
-                var avaliacao = await _service.AtualizarAvaliacao(id, comentarios);
+                var avaliacao = await _service.AtualizarAvaliacao(id, body.comentarios);
 
                 var response = new
                 {

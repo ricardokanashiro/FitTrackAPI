@@ -22,7 +22,7 @@ public class TreinoService
 		return await _repository.GetById(id);
 	}
 
-	public async Task CadastrarTreino(Guid alunoid, string titulo)
+	public async Task<Treino> CadastrarTreino(Guid alunoid, string titulo)
 	{
 		if(string.IsNullOrEmpty(titulo))
 		{
@@ -31,16 +31,27 @@ public class TreinoService
 
 		var newTreino = new Treino(alunoid, titulo);
 		await _repository.Register(newTreino);
+
+		return newTreino;
 	}
 
-	public async Task AtualizarTreino(Guid id, string titulo)
+	public async Task<Treino> AtualizarTreino(Guid id, string titulo)
 	{
         if (string.IsNullOrEmpty(titulo))
         {
             throw new ValidationException("Título Inválido!");
         }
 
+		var updatedTreino = await _repository.GetById(id);
+
+		if(updatedTreino == null)
+		{
+			throw new NotFoundException("Não existe treino com esse ID!");
+		}
+
 		await _repository.Update(id, titulo);
+
+		return updatedTreino;
     }
 
 	public async Task DeletarTreino(Guid id)

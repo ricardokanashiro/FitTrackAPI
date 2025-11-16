@@ -1,5 +1,4 @@
 ﻿using FitTrackAPI.DTOs;
-using FitTrackAPI.Exceptions;
 using FitTrackAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
