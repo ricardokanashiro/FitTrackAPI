@@ -11,10 +11,11 @@ namespace FitTrackAPI.Repositories
         Task<IEnumerable<SessaoTreino>> GetAll();
         Task<SessaoTreino?> GetById(Guid id);
         Task Register(SessaoTreino sessaoTreino);
-        Task Update(Guid id, SessaoTreinoDTO data);
+        Task Update(Guid id, SessaoTreinoUpdateDTO data);
+        Task Delete(Guid id);
     }
 
-    public class SessaoTreinoRepository
+    public class SessaoTreinoRepository: ISessaoTreinoRepository
     {
         private FitTrackDbContext _context;
 
@@ -39,7 +40,7 @@ namespace FitTrackAPI.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task Update(Guid id, SessaoTreinoDTO data)
+        public async Task Update(Guid id, SessaoTreinoUpdateDTO data)
         {
             var sessaoTreino = await GetById(id);
 
@@ -48,8 +49,8 @@ namespace FitTrackAPI.Repositories
                 throw new NotFoundException("Sessão de Treino não encontrada!");
             }
 
-            sessaoTreino.AtualizarData(data.data);
-            sessaoTreino.AtualizarDuracao(data.duracao);
+            sessaoTreino.AtualizarData(data.Data);
+            sessaoTreino.AtualizarDuracao(data.Duracao);
 
             _context.SessoesTreino.Update(sessaoTreino);
             await _context.SaveChangesAsync();
@@ -57,7 +58,6 @@ namespace FitTrackAPI.Repositories
 
         public async Task Delete(Guid id)
         {
-        
             var sessaoTreino = await GetById(id);
 
             if (sessaoTreino == null)
