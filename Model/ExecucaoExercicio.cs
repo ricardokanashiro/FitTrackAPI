@@ -14,8 +14,9 @@
 
         private ExecucaoExercicio() { } // EF
 
-        public ExecucaoExercicio(Guid sessaoTreinoId, Guid exercicioId, int? repeticoes, double? peso)
+        public ExecucaoExercicio(Guid sessaoTreinoId, Guid exercicioId, int repeticoes, double peso)
         {
+            Id = Guid.NewGuid();
             SessaoTreinoId = sessaoTreinoId;
             ExercicioId = exercicioId;
             Repeticoes = repeticoes;

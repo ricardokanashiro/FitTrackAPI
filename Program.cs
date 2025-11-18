@@ -30,6 +30,15 @@ builder.Services.AddScoped<TreinoService>();
 builder.Services.AddScoped<IExercicioRepository, ExercicioRepository>();
 builder.Services.AddScoped<ExercicioService>();
 
+// Adicionando camdas de SESSAOTREINO
+builder.Services.AddScoped<ISessaoTreinoRepository, SessaoTreinoRepository>();
+builder.Services.AddScoped<SessaoTreinoService>();
+
+// Adicionando camadas de EXECUCAOEXERCICIO
+
+builder.Services.AddScoped<IExecucaoExercicioRepository, ExecucaoExercicioRepository>();
+builder.Services.AddScoped<ExecucaoExercicioService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

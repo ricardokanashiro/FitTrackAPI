@@ -1,4 +1,6 @@
-﻿namespace FitTrackAPI.Model
+﻿using System.Text.Json.Serialization;
+
+namespace FitTrackAPI.Model
 {
     public class SessaoTreino
     {
@@ -7,8 +9,11 @@
         public TimeSpan Duracao { get; private set; }
 
         public Guid TreinoId { get; private set; }
+
+        [JsonIgnore]
         public Treino Treino { get; set; }
 
+        [JsonIgnore]
         public ICollection<ExecucaoExercicio> ExecucaoExercicios { get; set; } = new List<ExecucaoExercicio>();
 
         public SessaoTreino() { } // EF Core
